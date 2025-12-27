@@ -12,6 +12,9 @@ import FAQ from "./pages/FAQ";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
+import Dashboard from "./pages/Dashboard";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Crypto from "./pages/courses/Crypto";
 import Stocks from "./pages/courses/Stocks";
 import Forex from "./pages/courses/Forex";
@@ -20,6 +23,10 @@ import Options from "./pages/courses/Options";
 import Futures from "./pages/courses/Futures";
 import Bonds from "./pages/courses/Bonds";
 import ETFs from "./pages/courses/ETFs";
+import Terms from "./pages/legal/Terms";
+import Privacy from "./pages/legal/Privacy";
+import Refunds from "./pages/legal/Refunds";
+import Cookies from "./pages/legal/Cookies";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +47,10 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          {/* Blog */}
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           {/* Asset Class Courses */}
           <Route path="/crypto" element={<Crypto />} />
           <Route path="/stocks" element={<Stocks />} />
@@ -49,6 +60,11 @@ const App = () => (
           <Route path="/futures" element={<Futures />} />
           <Route path="/bonds" element={<Bonds />} />
           <Route path="/etfs" element={<ETFs />} />
+          {/* Legal */}
+          <Route path="/legal/terms" element={<Terms />} />
+          <Route path="/legal/privacy" element={<Privacy />} />
+          <Route path="/legal/refunds" element={<Refunds />} />
+          <Route path="/legal/cookies" element={<Cookies />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
