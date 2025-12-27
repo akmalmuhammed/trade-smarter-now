@@ -12,6 +12,14 @@ import FAQ from "./pages/FAQ";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
+import Crypto from "./pages/courses/Crypto";
+import Stocks from "./pages/courses/Stocks";
+import Forex from "./pages/courses/Forex";
+import Commodities from "./pages/courses/Commodities";
+import Options from "./pages/courses/Options";
+import Futures from "./pages/courses/Futures";
+import Bonds from "./pages/courses/Bonds";
+import ETFs from "./pages/courses/ETFs";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +40,15 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/* Asset Class Courses */}
+          <Route path="/crypto" element={<Crypto />} />
+          <Route path="/stocks" element={<Stocks />} />
+          <Route path="/forex" element={<Forex />} />
+          <Route path="/commodities" element={<Commodities />} />
+          <Route path="/options" element={<Options />} />
+          <Route path="/futures" element={<Futures />} />
+          <Route path="/bonds" element={<Bonds />} />
+          <Route path="/etfs" element={<ETFs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
