@@ -6,18 +6,24 @@ const footerLinks = {
     { label: "How It Works", href: "/how-it-works" },
     { label: "Pricing", href: "/pricing" },
     { label: "Courses", href: "/courses" },
-    { label: "Blog", href: "/blog" },
+    { label: "Dashboard", href: "/dashboard" },
   ],
-  courses: [
-    { label: "Crypto Trading", href: "/crypto" },
-    { label: "Stock Trading", href: "/stocks" },
-    { label: "Forex Trading", href: "/forex" },
-    { label: "Options Trading", href: "/options" },
+  resources: [
+    { label: "Blog", href: "/blog" },
+    { label: "Glossary", href: "/glossary" },
+    { label: "Help Center", href: "/help" },
+    { label: "FAQ", href: "/faq" },
+  ],
+  tools: [
+    { label: "Profit Calculator", href: "/tools/profit" },
+    { label: "Position Size", href: "/tools/position-size" },
+    { label: "Risk/Reward", href: "/tools/risk-reward" },
+    { label: "Leaderboard", href: "/leaderboard" },
   ],
   company: [
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
-    { label: "Help Center", href: "/help" },
+    { label: "Careers", href: "/about" },
   ],
   legal: [
     { label: "Terms of Service", href: "/legal/terms" },
@@ -86,11 +92,28 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Courses */}
+          {/* Resources */}
           <div>
-            <h4 className="font-display font-semibold text-foreground mb-4">Courses</h4>
+            <h4 className="font-display font-semibold text-foreground mb-4">Resources</h4>
             <ul className="space-y-3">
-              {footerLinks.courses.map((link) => (
+              {footerLinks.resources.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    to={link.href}
+                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Tools */}
+          <div>
+            <h4 className="font-display font-semibold text-foreground mb-4">Tools</h4>
+            <ul className="space-y-3">
+              {footerLinks.tools.map((link) => (
                 <li key={link.href}>
                   <Link
                     to={link.href}
