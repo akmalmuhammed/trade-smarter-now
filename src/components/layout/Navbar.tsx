@@ -5,22 +5,32 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, Zap, ChevronDown } from "lucide-react";
 
 const navLinks = [
-  { label: "How It Works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "About", href: "/about" },
   {
     label: "Courses",
     href: "#",
     children: [
-      { label: "Crypto", href: "/crypto" },
-      { label: "Stocks", href: "/stocks" },
-      { label: "Forex", href: "/forex" },
-      { label: "Options", href: "/options" },
-      { label: "Futures", href: "/futures" },
-      { label: "ETFs", href: "/etfs" },
+      { label: "Crypto Trading", href: "/crypto" },
+      { label: "Stock Trading", href: "/stocks" },
+      { label: "Forex Trading", href: "/forex" },
+      { label: "Commodities", href: "/commodities" },
+      { label: "Options Trading", href: "/options" },
+      { label: "Futures Trading", href: "/futures" },
+      { label: "Bonds Trading", href: "/bonds" },
+      { label: "ETFs Trading", href: "/etfs" },
     ],
   },
-  { label: "Blog", href: "/blog" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "How It Works", href: "/how-it-works" },
+  {
+    label: "Resources",
+    href: "#",
+    children: [
+      { label: "Blog", href: "/blog" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Contact", href: "/contact" },
+    ],
+  },
+  { label: "About", href: "/about" },
 ];
 
 export function Navbar() {
