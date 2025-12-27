@@ -28,6 +28,10 @@ import Leaderboard from "./pages/Leaderboard";
 import Certificates from "./pages/Certificates";
 import Achievements from "./pages/Achievements";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import Glossary from "./pages/Glossary";
+import ProfitCalculator from "./pages/tools/ProfitCalculator";
+import PositionSizeCalculator from "./pages/tools/PositionSizeCalculator";
+import RiskRewardCalculator from "./pages/tools/RiskRewardCalculator";
 import Crypto from "./pages/courses/Crypto";
 import Stocks from "./pages/courses/Stocks";
 import Forex from "./pages/courses/Forex";
@@ -73,6 +77,11 @@ const App = () => (
           <Route path="/certificates" element={<Certificates />} />
           <Route path="/achievements" element={<Achievements />} />
           <Route path="/lessons/:id" element={<Lesson />} />
+          <Route path="/glossary" element={<Glossary />} />
+          {/* Trading Tools */}
+          <Route path="/tools/profit" element={<ProfitCalculator />} />
+          <Route path="/tools/position-size" element={<PositionSizeCalculator />} />
+          <Route path="/tools/risk-reward" element={<RiskRewardCalculator />} />
           {/* Blog */}
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
