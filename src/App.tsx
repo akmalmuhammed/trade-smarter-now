@@ -15,6 +15,19 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Dashboard from "./pages/Dashboard";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import Lesson from "./pages/Lesson";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
+import Upgrade from "./pages/Upgrade";
+import Checkout from "./pages/Checkout";
+import CheckoutSuccess from "./pages/CheckoutSuccess";
+import Courses from "./pages/Courses";
+import Progress from "./pages/Progress";
+import Help from "./pages/Help";
+import Leaderboard from "./pages/Leaderboard";
+import Certificates from "./pages/Certificates";
+import Achievements from "./pages/Achievements";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import Crypto from "./pages/courses/Crypto";
 import Stocks from "./pages/courses/Stocks";
 import Forex from "./pages/courses/Forex";
@@ -48,6 +61,18 @@ const App = () => (
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/upgrade" element={<Upgrade />} />
+          <Route path="/checkout/:plan" element={<Checkout />} />
+          <Route path="/checkout/success" element={<CheckoutSuccess />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/progress" element={<Progress />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/certificates" element={<Certificates />} />
+          <Route path="/achievements" element={<Achievements />} />
+          <Route path="/lessons/:id" element={<Lesson />} />
           {/* Blog */}
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
@@ -65,6 +90,8 @@ const App = () => (
           <Route path="/legal/privacy" element={<Privacy />} />
           <Route path="/legal/refunds" element={<Refunds />} />
           <Route path="/legal/cookies" element={<Cookies />} />
+          {/* Admin */}
+          <Route path="/admin" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
