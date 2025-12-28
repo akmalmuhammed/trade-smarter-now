@@ -88,15 +88,60 @@
     /* Same as root - dark by default */
   }
 
-  /* Light mode for reading areas */
-  .light-reading {
-    --background: 40 20% 98%;
+  /* Light mode */
+  .light {
+    --background: 40 30% 98%;
     --foreground: 240 10% 10%;
+
     --card: 0 0% 100%;
     --card-foreground: 240 10% 10%;
-    --muted: 40 10% 93%;
-    --muted-foreground: 240 10% 40%;
-    --border: 40 10% 88%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+
+    --primary: 18 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 270 60% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 40 20% 94%;
+    --muted-foreground: 240 5% 45%;
+
+    --accent: 280 70% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 15% 88%;
+    --input: 40 15% 88%;
+    --ring: 18 100% 50%;
+
+    --sidebar-background: 40 20% 96%;
+    --sidebar-foreground: 240 10% 10%;
+    --sidebar-primary: 18 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 280 70% 55%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 40 15% 88%;
+    --sidebar-ring: 18 100% 50%;
+
+    --glow-orange: 18 100% 50%;
+    --glow-purple: 280 80% 55%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 10%;
+    --xp-gold: 45 100% 45%;
+    --glass: 0 0% 100%;
+    --glass-border: 40 15% 85%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(18, 100%, 50%) 0%, hsl(280, 70%, 55%) 100%);
+    --gradient-hover: linear-gradient(135deg, hsl(18, 100%, 45%) 0%, hsl(280, 70%, 50%) 100%);
+    --gradient-subtle: linear-gradient(180deg, hsl(40, 30%, 98%) 0%, hsl(40, 20%, 96%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0, 0%, 100%) 0%, hsl(40, 20%, 98%) 100%);
+    --gradient-glow: radial-gradient(ellipse at center, hsl(18, 100%, 50%, 0.1) 0%, transparent 70%);
   }
 }
 
