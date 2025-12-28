@@ -13,19 +13,21 @@ export const LessonNav = ({ currentSection, onContinue, showContinue }: LessonNa
     <AnimatePresence>
       {showContinue && (
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40"
+          exit={{ opacity: 0, y: 20 }}
+          className="fixed bottom-0 left-0 right-0 z-40 bg-background/95 backdrop-blur-sm border-t border-border py-4 px-4"
         >
-          <Button
-            onClick={onContinue}
-            size="lg"
-            className="bg-gradient-primary hover:opacity-90 text-primary-foreground font-semibold px-8 py-5 rounded-full shadow-glow-lg gap-2"
-          >
-            Continue
-            <ChevronDown className="w-5 h-5 animate-bounce" />
-          </Button>
+          <div className="max-w-3xl mx-auto flex justify-center">
+            <Button
+              onClick={onContinue}
+              size="lg"
+              className="bg-gradient-primary hover:opacity-90 text-primary-foreground font-semibold px-10 py-5 rounded-full shadow-glow-lg gap-2"
+            >
+              Continue
+              <ChevronDown className="w-5 h-5 animate-bounce" />
+            </Button>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
