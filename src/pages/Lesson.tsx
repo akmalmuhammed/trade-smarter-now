@@ -27,7 +27,6 @@ const Lesson = () => {
   const [aiScore, setAiScore] = useState<{ score: string; xp: number } | null>(null);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
-  const questionRef = useRef<HTMLDivElement>(null);
 
   // Scroll to top on mount
   useEffect(() => {
@@ -50,7 +49,12 @@ const Lesson = () => {
 
   const roadmapSteps = [
     { id: "intro", label: "Intro", completed: started, current: started && currentStep === 0 },
-    { id: "what", label: "What is it", completed: questionsAnswered >= 1, current: started && questionsAnswered === 0 },
+    {
+      id: "what",
+      label: "What is it",
+      completed: questionsAnswered >= 1,
+      current: started && questionsAnswered === 0,
+    },
     { id: "why", label: "Why care", completed: questionsAnswered >= 2, current: questionsAnswered === 1 },
     { id: "how", label: "How works", completed: questionsAnswered >= 3, current: questionsAnswered === 2 },
     { id: "quiz", label: "Quiz", completed: quizCompleted, current: questionsAnswered >= 3 && !quizCompleted },
@@ -62,6 +66,24 @@ const Lesson = () => {
     setTimeout(() => {
       contentRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
+  };
+
+  const handleContinue = () => {
+    const root = contentRef.current;
+    if (!root) return;
+
+    const sections = Array.from(root.querySelectorAll<HTMLElement>("[data-lesson-section]"));
+    if (!sections.length) return;
+
+    // Offset accounts for the sticky lesson header.
+    const currentY = window.scrollY + 220;
+
+    const next = sections
+      .map((el) => ({ el, top: el.getBoundingClientRect().top + window.scrollY }))
+      .filter(({ top }) => top > currentY)
+      .sort((a, b) => a.top - b.top)[0]?.el;
+
+    next?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleQuestionCorrect = () => {
@@ -106,40 +128,46 @@ const Lesson = () => {
         <>
           <LessonRoadmap steps={roadmapSteps} />
 
-          <div ref={contentRef} className="pb-20">
-            {/* Section 1: Hook */}
-            <TextBlock
-              icon="💡"
-              heading="Here's Something Wild"
-              paragraphs={[
-                "Most people think cryptocurrency is just Bitcoin. Wrong.",
-                "There are over 20,000 different cryptocurrencies, and understanding the difference could save you thousands of dollars.",
-                "By the end of this lesson, you'll know exactly what crypto is, why it exists, and why traders care about it. Let's dive in.",
-              ]}
-            />
+          <div ref={contentRef} className="pb-20" data-lesson-sections>
+            <section data-lesson-section="intro" className="scroll-mt-28">
+              {/* Section 1: Hook */}
+              <TextBlock
+                icon="💡"
+                heading="Here's Something Wild"
+                paragraphs={[
+                  "Most people think cryptocurrency is just Bitcoin. Wrong.",
+                  "There are over 20,000 different cryptocurrencies, and understanding the difference could save you thousands of dollars.",
+                  "By the end of this lesson, you'll know exactly what crypto is, why it exists, and why traders care about it. Let's dive in.",
+                ]}
+              />
+            </section>
 
-            {/* Section 2: Definition */}
-            <DefinitionBlock
-              icon="📖"
-              term="What is Cryptocurrency?"
-              definition="Cryptocurrency is digital money that exists only on the internet. You can't hold it in your hand, but you can buy, sell, and trade it just like regular money. The key difference? No bank controls it."
-            />
+            <section data-lesson-section="what-is" className="scroll-mt-28">
+              {/* Section 2: Definition */}
+              <DefinitionBlock
+                icon="📖"
+                term="What is Cryptocurrency?"
+                definition="Cryptocurrency is digital money that exists only on the internet. You can't hold it in your hand, but you can buy, sell, and trade it just like regular money. The key difference? No bank controls it."
+              />
+            </section>
 
-            {/* Section 3: Comparison Table */}
-            <ComparisonBlock
-              title="Traditional Money vs Cryptocurrency"
-              rows={[
-                { feature: "Controlled by", traditional: "Banks/Govt", crypto: "No one" },
-                { feature: "Physical form", traditional: true, crypto: false },
-                { feature: "Send globally", traditional: "Slow, expensive", crypto: "Fast, cheap" },
-                { feature: "Privacy", traditional: "Tracked", crypto: "More private" },
-                { feature: "Can be frozen", traditional: true, crypto: false },
-              ]}
-              summary="See the difference? Crypto gives you more control."
-            />
+            <section data-lesson-section="comparison" className="scroll-mt-28">
+              {/* Section 3: Comparison Table */}
+              <ComparisonBlock
+                title="Traditional Money vs Cryptocurrency"
+                rows={[
+                  { feature: "Controlled by", traditional: "Banks/Govt", crypto: "No one" },
+                  { feature: "Physical form", traditional: true, crypto: false },
+                  { feature: "Send globally", traditional: "Slow, expensive", crypto: "Fast, cheap" },
+                  { feature: "Privacy", traditional: "Tracked", crypto: "More private" },
+                  { feature: "Can be frozen", traditional: true, crypto: false },
+                ]}
+                summary="See the difference? Crypto gives you more control."
+              />
+            </section>
 
-            {/* Section 4: Quick Check 1 */}
-            <div ref={questionRef}>
+            <section data-lesson-section="quick-check-1" className="scroll-mt-28">
+              {/* Section 4: Quick Check 1 */}
               {questionsAnswered < 1 && (
                 <QuestionBlock
                   question="Who controls cryptocurrency?"
@@ -150,164 +178,178 @@ const Lesson = () => {
                   onCorrect={handleQuestionCorrect}
                 />
               )}
-            </div>
+            </section>
 
             {questionsAnswered >= 1 && (
               <>
-                {/* Section 5: Real World Example */}
-                <ExampleBlock
-                  title="Real-World Example"
-                  scenario="Meet Sarah. She lives in California and wants to send $500 to her cousin in the Philippines."
-                  traditional={{
-                    label: "Traditional way:",
-                    items: [
-                      "Go to Western Union",
-                      "Pay $35 transfer fee",
-                      "Wait 3-5 days",
-                      "Cousin receives $465 (after fees)",
-                    ],
-                  }}
-                  crypto={{
-                    label: "Using crypto:",
-                    items: [
-                      "Send from phone app",
-                      "Pay $2 transaction fee",
-                      "Arrives in 10 minutes",
-                      "Cousin receives $498",
-                    ],
-                  }}
-                  conclusion="That's $33 saved and 5 days faster. This is why millions use crypto for international transfers."
-                />
-
-                {/* Section 6: Quick Check 2 */}
-                {questionsAnswered < 2 && (
-                  <QuestionBlock
-                    question="What is the main advantage of using crypto for international transfers?"
-                    options={[
-                      "It's more regulated",
-                      "Faster and cheaper than banks",
-                      "Guaranteed profit",
-                      "No internet needed",
-                    ]}
-                    correctIndex={1}
-                    explanation="Crypto transfers are typically faster (minutes vs days) and cheaper (low fees vs high bank fees) than traditional methods."
-                    xpReward={5}
-                    onCorrect={handleQuestionCorrect}
+                <section data-lesson-section="example" className="scroll-mt-28">
+                  {/* Section 5: Real World Example */}
+                  <ExampleBlock
+                    title="Real-World Example"
+                    scenario="Meet Sarah. She lives in California and wants to send $500 to her cousin in the Philippines."
+                    traditional={{
+                      label: "Traditional way:",
+                      items: [
+                        "Go to Western Union",
+                        "Pay $35 transfer fee",
+                        "Wait 3-5 days",
+                        "Cousin receives $465 (after fees)",
+                      ],
+                    }}
+                    crypto={{
+                      label: "Using crypto:",
+                      items: [
+                        "Send from phone app",
+                        "Pay $2 transaction fee",
+                        "Arrives in 10 minutes",
+                        "Cousin receives $498",
+                      ],
+                    }}
+                    conclusion="That's $33 saved and 5 days faster. This is why millions use crypto for international transfers."
                   />
-                )}
+                </section>
+
+                <section data-lesson-section="quick-check-2" className="scroll-mt-28">
+                  {/* Section 6: Quick Check 2 */}
+                  {questionsAnswered < 2 && (
+                    <QuestionBlock
+                      question="What is the main advantage of using crypto for international transfers?"
+                      options={[
+                        "It's more regulated",
+                        "Faster and cheaper than banks",
+                        "Guaranteed profit",
+                        "No internet needed",
+                      ]}
+                      correctIndex={1}
+                      explanation="Crypto transfers are typically faster (minutes vs days) and cheaper (low fees vs high bank fees) than traditional methods."
+                      xpReward={5}
+                      onCorrect={handleQuestionCorrect}
+                    />
+                  )}
+                </section>
               </>
             )}
 
             {questionsAnswered >= 2 && (
               <>
-                {/* Section 7: Interactive Price Chart */}
-                <InteractiveBlock
-                  title="Bitcoin Price Over Time"
-                  data={[
-                    { year: 2010, price: 0.08 },
-                    { year: 2013, price: 1100 },
-                    { year: 2015, price: 300 },
-                    { year: 2017, price: 19000 },
-                    { year: 2019, price: 7200 },
-                    { year: 2021, price: 64000 },
-                    { year: 2023, price: 45000 },
-                  ]}
-                  insight="See how volatile crypto is? This is why traders can make (or lose) money quickly."
-                />
-
-                {/* Section 8: Myth Buster */}
-                <MythBlock
-                  myth="Cryptocurrency is only used by criminals."
-                  reality="While early crypto did attract illegal activity, today 99% of crypto transactions are legitimate. Major companies like Tesla, Microsoft, and PayPal now accept crypto. The blockchain is actually MORE transparent than cash - every transaction is recorded permanently."
-                />
-
-                {/* Section 9: Quick Check 3 */}
-                {questionsAnswered < 3 && (
-                  <QuestionBlock
-                    question="Why is Bitcoin's price history important for traders?"
-                    options={[
-                      "It always goes up",
-                      "It shows high volatility = opportunity and risk",
-                      "Banks set the price",
-                      "The price never changes",
+                <section data-lesson-section="chart" className="scroll-mt-28">
+                  {/* Section 7: Interactive Price Chart */}
+                  <InteractiveBlock
+                    title="Bitcoin Price Over Time"
+                    data={[
+                      { year: 2010, price: 0.08 },
+                      { year: 2013, price: 1100 },
+                      { year: 2015, price: 300 },
+                      { year: 2017, price: 19000 },
+                      { year: 2019, price: 7200 },
+                      { year: 2021, price: 64000 },
+                      { year: 2023, price: 45000 },
                     ]}
-                    correctIndex={1}
-                    explanation="Bitcoin's volatile price history shows both the opportunity for gains and the risk of losses. Understanding this volatility is key for traders."
-                    xpReward={5}
-                    onCorrect={handleQuestionCorrect}
+                    insight="See how volatile crypto is? This is why traders can make (or lose) money quickly."
                   />
-                )}
+                </section>
+
+                <section data-lesson-section="myth" className="scroll-mt-28">
+                  {/* Section 8: Myth Buster */}
+                  <MythBlock
+                    myth="Cryptocurrency is only used by criminals."
+                    reality="While early crypto did attract illegal activity, today 99% of crypto transactions are legitimate. Major companies like Tesla, Microsoft, and PayPal now accept crypto. The blockchain is actually MORE transparent than cash - every transaction is recorded permanently."
+                  />
+                </section>
+
+                <section data-lesson-section="quick-check-3" className="scroll-mt-28">
+                  {/* Section 9: Quick Check 3 */}
+                  {questionsAnswered < 3 && (
+                    <QuestionBlock
+                      question="Why is Bitcoin's price history important for traders?"
+                      options={[
+                        "It always goes up",
+                        "It shows high volatility = opportunity and risk",
+                        "Banks set the price",
+                        "The price never changes",
+                      ]}
+                      correctIndex={1}
+                      explanation="Bitcoin's volatile price history shows both the opportunity for gains and the risk of losses. Understanding this volatility is key for traders."
+                      xpReward={5}
+                      onCorrect={handleQuestionCorrect}
+                    />
+                  )}
+                </section>
               </>
             )}
 
             {questionsAnswered >= 3 && (
               <>
-                {/* Section 10: Key Takeaways */}
-                <KeyTakeawaysBlock
-                  takeaways={[
-                    "Crypto is digital money that exists only online",
-                    "No bank or government controls it (decentralized)",
-                    "Uses blockchain technology for security",
-                    "Faster and cheaper than traditional transfers",
-                    "Bitcoin is just one of 20,000+ cryptocurrencies",
-                    "High volatility means opportunity AND risk",
-                  ]}
-                />
-
-                {/* Section 11: Final Quiz */}
-                {!quizCompleted && (
-                  <LessonQuiz
-                    questions={[
-                      {
-                        question: "What is the main advantage of cryptocurrency over traditional banking?",
-                        options: [
-                          "It's completely anonymous",
-                          "No intermediaries needed for transactions",
-                          "Guaranteed to increase in value",
-                          "It's backed by gold",
-                        ],
-                        correctIndex: 1,
-                        explanation: "Cutting out intermediaries (banks) is the key benefit of crypto.",
-                      },
-                      {
-                        question: "How many cryptocurrencies exist today?",
-                        options: ["Just Bitcoin", "About 100", "Over 20,000", "Exactly 1,000"],
-                        correctIndex: 2,
-                        explanation: "There are over 20,000 different cryptocurrencies available today.",
-                      },
-                      {
-                        question: "What technology powers cryptocurrency?",
-                        options: ["Cloud computing", "Blockchain", "Artificial Intelligence", "5G networks"],
-                        correctIndex: 1,
-                        explanation: "Blockchain is the underlying technology that makes crypto secure and decentralized.",
-                      },
+                <section data-lesson-section="takeaways" className="scroll-mt-28">
+                  {/* Section 10: Key Takeaways */}
+                  <KeyTakeawaysBlock
+                    takeaways={[
+                      "Crypto is digital money that exists only online",
+                      "No bank or government controls it (decentralized)",
+                      "Uses blockchain technology for security",
+                      "Faster and cheaper than traditional transfers",
+                      "Bitcoin is just one of 20,000+ cryptocurrencies",
+                      "High volatility means opportunity AND risk",
                     ]}
-                    xpReward={25}
-                    onComplete={handleQuizComplete}
                   />
-                )}
+                </section>
 
-                {/* Section 12: AI Feedback */}
-                {quizCompleted && !aiCompleted && (
-                  <AIFeedback
-                    prompt="Imagine your friend asks: 'What is cryptocurrency and why should I care about it?' Write your explanation below (like you're texting them):"
-                    minChars={100}
-                    maxChars={1000}
-                    xpRewards={{ basic: 50, good: 75, excellent: 100 }}
-                    onComplete={handleAiComplete}
-                  />
-                )}
+                <section data-lesson-section="quiz" className="scroll-mt-28">
+                  {/* Section 11: Final Quiz */}
+                  {!quizCompleted && (
+                    <LessonQuiz
+                      questions={[
+                        {
+                          question: "What is the main advantage of cryptocurrency over traditional banking?",
+                          options: [
+                            "It's completely anonymous",
+                            "No intermediaries needed for transactions",
+                            "Guaranteed to increase in value",
+                            "It's backed by gold",
+                          ],
+                          correctIndex: 1,
+                          explanation: "Cutting out intermediaries (banks) is the key benefit of crypto.",
+                        },
+                        {
+                          question: "How many cryptocurrencies exist today?",
+                          options: ["Just Bitcoin", "About 100", "Over 20,000", "Exactly 1,000"],
+                          correctIndex: 2,
+                          explanation: "There are over 20,000 different cryptocurrencies available today.",
+                        },
+                        {
+                          question: "What technology powers cryptocurrency?",
+                          options: ["Cloud computing", "Blockchain", "Artificial Intelligence", "5G networks"],
+                          correctIndex: 1,
+                          explanation: "Blockchain is the underlying technology that makes crypto secure and decentralized.",
+                        },
+                      ]}
+                      xpReward={25}
+                      onComplete={handleQuizComplete}
+                    />
+                  )}
+                </section>
+
+                <section data-lesson-section="ai-feedback" className="scroll-mt-28">
+                  {/* Section 12: AI Feedback */}
+                  {quizCompleted && !aiCompleted && (
+                    <AIFeedback
+                      prompt="Imagine your friend asks: 'What is cryptocurrency and why should I care about it?' Write your explanation below (like you're texting them):"
+                      minChars={100}
+                      maxChars={1000}
+                      xpRewards={{ basic: 50, good: 75, excellent: 100 }}
+                      onComplete={handleAiComplete}
+                    />
+                  )}
+                </section>
               </>
             )}
           </div>
 
           {/* Floating Continue Button */}
           <LessonNav
-            currentSection="intro"
+            currentSection={id ?? "intro"}
             showContinue={started && !showComplete}
-            onContinue={() => {
-              questionRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-            }}
+            onContinue={handleContinue}
           />
         </>
       )}
