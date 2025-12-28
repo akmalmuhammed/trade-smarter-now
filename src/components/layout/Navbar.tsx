@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Zap, ChevronDown } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navLinks = [
   {
@@ -108,7 +109,8 @@ export function Navbar() {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2">
+            <ThemeToggle />
             <Button variant="ghost" asChild>
               <Link to="/login">Log in</Link>
             </Button>
@@ -168,6 +170,10 @@ export function Navbar() {
               ))}
               
               <div className="pt-4 flex flex-col gap-3 border-t border-border">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-muted-foreground">Theme</span>
+                  <ThemeToggle />
+                </div>
                 <Button variant="ghost" className="w-full" asChild>
                   <Link to="/login" onClick={() => setIsOpen(false)}>Log in</Link>
                 </Button>
