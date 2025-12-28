@@ -26,17 +26,17 @@ export const LessonHero = ({
   return (
     <section className="relative min-h-[80vh] flex flex-col items-center justify-center px-4 py-12 overflow-hidden">
       {/* Background effects */}
-      <div className="absolute inset-0 bg-hero-glow opacity-50" />
-      <div className="absolute inset-0 hero-grid opacity-30" />
+      <div className="absolute inset-0 bg-hero-glow opacity-50 pointer-events-none" />
+      <div className="absolute inset-0 hero-grid opacity-30 pointer-events-none" />
       
       {/* Floating particles */}
       <motion.div
-        className="absolute top-20 left-10 w-20 h-20 rounded-full bg-gradient-primary opacity-20 blur-xl"
+        className="absolute top-20 left-10 w-20 h-20 rounded-full bg-gradient-primary opacity-20 blur-xl pointer-events-none"
         animate={{ y: [0, -20, 0], scale: [1, 1.1, 1] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute bottom-40 right-10 w-32 h-32 rounded-full bg-accent/20 blur-xl"
+        className="absolute bottom-40 right-10 w-32 h-32 rounded-full bg-accent/20 blur-xl pointer-events-none"
         animate={{ y: [0, 20, 0], scale: [1, 1.2, 1] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       />
