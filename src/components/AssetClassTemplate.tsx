@@ -218,7 +218,7 @@ export function AssetClassTemplate({
                     className="w-full"
                     asChild
                   >
-                    <Link to="/signup">
+                    <Link to={module.free ? "/lessons/intro" : "/signup"}>
                       {module.free ? "Start Free" : "Unlock with Pro"}
                     </Link>
                   </Button>
