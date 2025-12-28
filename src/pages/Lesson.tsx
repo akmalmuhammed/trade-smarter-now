@@ -6,6 +6,7 @@ import { LessonRoadmap } from "@/components/lesson/LessonRoadmap";
 import { LessonQuiz } from "@/components/lesson/LessonQuiz";
 import { AIFeedback } from "@/components/lesson/AIFeedback";
 import { LessonComplete } from "@/components/lesson/LessonComplete";
+import { LessonNav } from "@/components/lesson/LessonNav";
 import { TextBlock } from "@/components/lesson/blocks/TextBlock";
 import { DefinitionBlock } from "@/components/lesson/blocks/DefinitionBlock";
 import { ComparisonBlock } from "@/components/lesson/blocks/ComparisonBlock";
@@ -26,6 +27,7 @@ const Lesson = () => {
   const [aiScore, setAiScore] = useState<{ score: string; xp: number } | null>(null);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
+  const questionRef = useRef<HTMLDivElement>(null);
 
   // Scroll to top on mount
   useEffect(() => {
@@ -137,16 +139,18 @@ const Lesson = () => {
             />
 
             {/* Section 4: Quick Check 1 */}
-            {questionsAnswered < 1 && (
-              <QuestionBlock
-                question="Who controls cryptocurrency?"
-                options={["Banks", "Governments", "Tech companies", "No single entity"]}
-                correctIndex={3}
-                explanation="Crypto is decentralized - no single authority controls it. This is what makes it revolutionary."
-                xpReward={5}
-                onCorrect={handleQuestionCorrect}
-              />
-            )}
+            <div ref={questionRef}>
+              {questionsAnswered < 1 && (
+                <QuestionBlock
+                  question="Who controls cryptocurrency?"
+                  options={["Banks", "Governments", "Tech companies", "No single entity"]}
+                  correctIndex={3}
+                  explanation="Crypto is decentralized - no single authority controls it. This is what makes it revolutionary."
+                  xpReward={5}
+                  onCorrect={handleQuestionCorrect}
+                />
+              )}
+            </div>
 
             {questionsAnswered >= 1 && (
               <>
@@ -296,6 +300,15 @@ const Lesson = () => {
               </>
             )}
           </div>
+
+          {/* Floating Continue Button */}
+          <LessonNav
+            currentSection="intro"
+            showContinue={started && !showComplete}
+            onContinue={() => {
+              questionRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+            }}
+          />
         </>
       )}
 
