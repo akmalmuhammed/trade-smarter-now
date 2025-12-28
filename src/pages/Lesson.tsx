@@ -20,7 +20,7 @@ const Lesson = () => {
   const { id } = useParams();
   const [started, setStarted] = useState(false);
   const [xp, setXp] = useState(0);
-  const [currentStep, setCurrentStep] = useState(0);
+  
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [aiCompleted, setAiCompleted] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
@@ -47,18 +47,26 @@ const Lesson = () => {
     completions: 1247,
   };
 
+  // Determine current step based on progress
+  const getCurrentStep = () => {
+    if (showComplete) return 5;
+    if (quizCompleted) return 5;
+    if (questionsAnswered >= 3) return 4;
+    if (questionsAnswered >= 2) return 3;
+    if (questionsAnswered >= 1) return 2;
+    if (started) return 1;
+    return 0;
+  };
+  
+  const activeStep = getCurrentStep();
+
   const roadmapSteps = [
-    { id: "intro", label: "Intro", completed: started, current: started && currentStep === 0 },
-    {
-      id: "what",
-      label: "What is it",
-      completed: questionsAnswered >= 1,
-      current: started && questionsAnswered === 0,
-    },
-    { id: "why", label: "Why care", completed: questionsAnswered >= 2, current: questionsAnswered === 1 },
-    { id: "how", label: "How works", completed: questionsAnswered >= 3, current: questionsAnswered === 2 },
-    { id: "quiz", label: "Quiz", completed: quizCompleted, current: questionsAnswered >= 3 && !quizCompleted },
-    { id: "finish", label: "Finish", completed: showComplete, current: quizCompleted && !showComplete },
+    { id: "intro", label: "Intro", completed: activeStep > 0, current: activeStep === 0 },
+    { id: "what", label: "What is it", completed: activeStep > 1, current: activeStep === 1 },
+    { id: "why", label: "Why care", completed: activeStep > 2, current: activeStep === 2 },
+    { id: "how", label: "How works", completed: activeStep > 3, current: activeStep === 3 },
+    { id: "quiz", label: "Quiz", completed: activeStep > 4, current: activeStep === 4 },
+    { id: "finish", label: "Finish", completed: showComplete, current: activeStep === 5 && !showComplete },
   ];
 
   const handleStart = () => {
