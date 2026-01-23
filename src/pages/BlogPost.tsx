@@ -1,5 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import DOMPurify from "dompurify";
 import { 
   Clock, 
   User, 
@@ -189,7 +190,12 @@ const BlogPost = () => {
             <article className="lg:col-span-11 prose prose-invert prose-lg max-w-none">
               <div 
                 className="text-foreground [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>p]:text-muted-foreground [&>p]:mb-4 [&>p]:leading-relaxed [&>ul]:my-4 [&>ul]:pl-6 [&>ul>li]:text-muted-foreground [&>ul>li]:mb-2 [&>ul>li>strong]:text-foreground"
-                dangerouslySetInnerHTML={{ __html: post.content }}
+                dangerouslySetInnerHTML={{ 
+                  __html: DOMPurify.sanitize(post.content, {
+                    ALLOWED_TAGS: ['p', 'h2', 'h3', 'ul', 'li', 'strong', 'em', 'a'],
+                    ALLOWED_ATTR: ['href', 'target', 'rel']
+                  }) 
+                }}
               />
             </article>
           </div>
