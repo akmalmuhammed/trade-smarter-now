@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AuthProvider } from "@/hooks/useAuth";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Pricing from "./pages/Pricing";
 import About from "./pages/About";
@@ -56,55 +58,64 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/upgrade" element={<Upgrade />} />
-            <Route path="/checkout/:plan" element={<Checkout />} />
-            <Route path="/checkout/success" element={<CheckoutSuccess />} />
-            <Route path="/courses" element={<Courses />} />
-            <Route path="/progress" element={<Progress />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/leaderboard" element={<Leaderboard />} />
-            <Route path="/certificates" element={<Certificates />} />
-            <Route path="/achievements" element={<Achievements />} />
-            <Route path="/lessons/:id" element={<Lesson />} />
-            <Route path="/glossary" element={<Glossary />} />
-            {/* Trading Tools */}
-            <Route path="/tools/profit" element={<ProfitCalculator />} />
-            <Route path="/tools/position-size" element={<PositionSizeCalculator />} />
-            <Route path="/tools/risk-reward" element={<RiskRewardCalculator />} />
-            {/* Blog */}
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
-            {/* Asset Class Courses */}
-            <Route path="/crypto" element={<Crypto />} />
-            <Route path="/stocks" element={<Stocks />} />
-            <Route path="/forex" element={<Forex />} />
-            <Route path="/commodities" element={<Commodities />} />
-            <Route path="/options" element={<Options />} />
-            <Route path="/futures" element={<Futures />} />
-            <Route path="/bonds" element={<Bonds />} />
-            <Route path="/etfs" element={<ETFs />} />
-            {/* Legal */}
-            <Route path="/legal/terms" element={<Terms />} />
-            <Route path="/legal/privacy" element={<Privacy />} />
-            <Route path="/legal/refunds" element={<Refunds />} />
-            <Route path="/legal/cookies" element={<Cookies />} />
-            {/* Admin */}
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AuthProvider>
+            <Routes>
+              {/* Public Routes */}
+              <Route path="/" element={<Index />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/glossary" element={<Glossary />} />
+              <Route path="/courses" element={<Courses />} />
+              <Route path="/lessons/:id" element={<Lesson />} />
+              
+              {/* Asset Class Courses - Public per access policy */}
+              <Route path="/crypto" element={<Crypto />} />
+              <Route path="/stocks" element={<Stocks />} />
+              <Route path="/forex" element={<Forex />} />
+              <Route path="/commodities" element={<Commodities />} />
+              <Route path="/options" element={<Options />} />
+              <Route path="/futures" element={<Futures />} />
+              <Route path="/bonds" element={<Bonds />} />
+              <Route path="/etfs" element={<ETFs />} />
+              
+              {/* Trading Tools - Public */}
+              <Route path="/tools/profit" element={<ProfitCalculator />} />
+              <Route path="/tools/position-size" element={<PositionSizeCalculator />} />
+              <Route path="/tools/risk-reward" element={<RiskRewardCalculator />} />
+              
+              {/* Legal - Public */}
+              <Route path="/legal/terms" element={<Terms />} />
+              <Route path="/legal/privacy" element={<Privacy />} />
+              <Route path="/legal/refunds" element={<Refunds />} />
+              <Route path="/legal/cookies" element={<Cookies />} />
+              
+              {/* Protected Routes */}
+              <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path="/upgrade" element={<ProtectedRoute><Upgrade /></ProtectedRoute>} />
+              <Route path="/checkout/:plan" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+              <Route path="/checkout/success" element={<ProtectedRoute><CheckoutSuccess /></ProtectedRoute>} />
+              <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
+              <Route path="/help" element={<ProtectedRoute><Help /></ProtectedRoute>} />
+              <Route path="/leaderboard" element={<ProtectedRoute><Leaderboard /></ProtectedRoute>} />
+              <Route path="/certificates" element={<ProtectedRoute><Certificates /></ProtectedRoute>} />
+              <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
+              
+              {/* Admin Routes - Protected */}
+              <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+              
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>
